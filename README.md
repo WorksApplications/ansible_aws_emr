@@ -1,12 +1,8 @@
 # ReadMe
 This is a project to release self designed Ansible modules. 
 
-# Environment Info
-ansible version: 2.5.5
-Python  version: 2.7.12
-pip version: 9.0.1 
-boto: 2.48.0
-boto3: 1.7.22
+# How to initialize development environment
+Install Python version 2.7.12, and run `pip install -r requirements.txt` to install necessary packages.
 
 # How to use
 1. Please copy **emr/lib/aws_emr.py** to your ansible lib path or set **emr/lib** as your ansible lib path. Default config file is under **/etc/ansible/ansible.cfg**. 
