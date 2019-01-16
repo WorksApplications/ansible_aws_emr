@@ -1,0 +1,12 @@
+language: python
+# required by SonarCloud addon
+dist: trusty
+python:
+- '2.7'
+script:
+  - sonar-scanner -Dsonar.projectKey=WorksApplications_ansible_aws_emr -Dsonar.sources=emr/lib
+addons:
+  sonarcloud:
+    organization: "worksapplications"
+    token:
+      secure: "jDt8as+MFLMMqhj6W8VHxIapJUGrPpvmnkFdzim571XaL/b/sI7BxyiHVeQdHzxTAn/VHUWnpCnityzt862tOoTVLpA7XAWkOfgbdnC54yCd1Y2N0a0IBxUx4tRq+6pZrPoMkE4pGW8SRj3MzlowXEGZV39VPqaTsxaTZ6LXoVhepmVqe1NC83vHnWU4j7JptBsL/LRCGDq8PNMhfzIs0f24yX5RcIRcWHf8dE0k9NlSsbXu25dY8WdoTISqFsWfMOKGIQXNtfz8jQi4YBTdJfBDXZHkOx7wZ0HWrFn9Emx0+zYVitCUDkQtNLTgNOO22jjDCZZ/VKU4CoGByVeGdyd9JBLPbTy64899861dj2+7d8ZaFBpH7RWGSSPk3VT+qzLO9KEnHzxCxNmmKuUrAfyANm5/gcX7hP9O8tat5lox7G9mItm8B3gzRNjZPtFsvfR9Nl/mvqcBi5CTlzQma2J7iPU0DF/dPD8sFiiWcA23ftLBa8EJq/tfRJD9+suCTQ6OIiBj0fWnDQXX5sbKOxCfxBWu1DOaLpp/59IfgpYLItWv3mTsKvLEmcIuK73axVbWi/cnrR/vo1Vrg12DZ9LAR1RL57g1I4TBQNk2MSZ+VCQqYF6GsbVRtWngcOyawIQlr4iphGXozTJnK5qKs3I6mCCH9V7jaaZ4ljNaw54="
