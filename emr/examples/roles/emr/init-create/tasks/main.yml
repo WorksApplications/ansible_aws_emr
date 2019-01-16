@@ -1,0 +1,23 @@
+- name: create emr cluster
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: create
+    name: EMR_test_fox
+    auto_scaling_role: EMR_AutoScaling_DefaultRole
+    applications: ['Hadoop', 'Spark']
+    log_url: 's3://worksap-emr-bucket-example/edp2rocks/develop/logs'
+    tags: [{'Name': 'EMR_test_fox'}]
+    ec2_key_file_name: edp2-sg-env
+    emr_master_security_group: 'sg-f920d780'
+    emr_slave_security_group: 'sg-1c38cf65'
+    emr_service_security_group: 'sg-0622d57f'
+    instances: "{{ playbook_dir }}/roles/emr/init-create/files/instances.json"
+    bootstrap_actions: "{{ playbook_dir }}/roles/emr/init-create/files/bootstrapactions.json"
+    configurations: "{{ playbook_dir }}/roles/emr/init-create/files/emr_config.json"
+    ec2_subnet: 'subnet-a4a6ccc3'
+  register: result
+
+- debug:
+    msg: "{{ result }}"

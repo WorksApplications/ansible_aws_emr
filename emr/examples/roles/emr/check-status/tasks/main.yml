@@ -1,0 +1,26 @@
+- name: Test check status
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: check-status
+    id: "{{ CLUSTER_ID }}"
+  register: result
+
+- debug:
+    msg: "{{ result.state }}"
+
+- debug:
+    msg: "{{ result.state_changed_reason }}"
+
+- name: Test check status if Cluster ID is invalid
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: check-status
+    id: "{{ CLUSTER_ID_ERROR }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"

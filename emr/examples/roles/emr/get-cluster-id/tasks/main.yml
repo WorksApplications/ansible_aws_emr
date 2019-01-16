@@ -1,0 +1,31 @@
+- name: Test to get EMR cluster ID by cluster Name
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: get-cluster-id
+    name: "{{ CLSUTER_NAME }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"
+
+- debug:
+    msg: "{{ result.id }}"
+
+- name: Test if cluster does not exist
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: get-cluster-id
+    name: "{{ CLSUTER_NAME_ERROR }}"
+  register: result
+
+- debug:
+    msg: "Cluster ID is: {{ result.id }}"
+  when: result.id is defined
+
+- debug:
+    msg: "Cluster does not exist."
+  when: result.id is undefined

@@ -1,0 +1,26 @@
+[
+  {
+    "ScriptBootstrapAction":{
+      "Path":"s3://worksap-emr-bucket-example/edp2rocks/develop/emr_upload_files/bootstrap.sh"
+    },
+    "Name":"Bootstrap_action"
+  },
+  {
+    "ScriptBootstrapAction":{
+      "Path":"s3://worksap-emr-bucket-example/edp2rocks/develop/emr_upload_files/emr-master-cron-job.sh",
+      "Args":[
+        "instance.isMaster=true"
+      ]
+    },
+    "Name":"Master_bootstrap_action"
+  },
+  {
+    "ScriptBootstrapAction":{
+      "Path":"s3://worksap-emr-bucket-example/edp2rocks/develop/emr_upload_files/emr-slave-heapdump-monitor-script.sh",
+      "Args":[
+        "instance.isMaster=false"
+      ]
+    },
+    "Name":"Non_master_bootstrap_action"
+  }
+]

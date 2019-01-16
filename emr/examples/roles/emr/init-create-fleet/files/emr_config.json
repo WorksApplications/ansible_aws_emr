@@ -1,0 +1,112 @@
+[
+  {
+    "Classification":"yarn-site",
+    "Properties":{
+      "yarn.resourcemanager.decommissioning.timeout":"172800",
+      "yarn.app.mapreduce.am.labels":"CORE,TASK",
+      "yarn.nodemanager.vmem-check-enabled":"false",
+      "yarn.nodemanager.pmem-check-enabled":"false",
+      "yarn.resourcemanager.recovery.enabled":"true",
+      "yarn.nodemanager.recovery.enabled":"true",
+      "yarn.scheduler.minimum-allocation-mb":"50",
+      "yarn.scheduler.increment-allocation-mb":"50",
+      "yarn.scheduler.maximum-allocation-mb":"23424",
+      "yarn.scheduler.minimum-allocation-vcores":"1",
+      "yarn.scheduler.increment-allocation-vcores":"1",
+      "yarn.scheduler.maximum-allocation-vcores":"32",
+      "yarn.resourcemanager.am.max-attempts":"1",
+      "yarn.nodemanager.remote-app-log-dir":"/tmp/logs",
+      "yarn.am.liveness-monitor.expiry-interval-ms":"1800000",
+      "yarn.resourcemanager.am-rm-tokens.master-key-rolling-interval-secs":"86400000",
+      "yarn.resourcemanager.container-tokens.master-key-rolling-interval-secs":"86400000"
+    },
+    "Configurations":[]
+  },
+  {
+    "Classification":"capacity-scheduler",
+    "Properties":{
+      "yarn.scheduler.capacity.maximum-applications":"100000",
+      "yarn.scheduler.capacity.maximum-am-resource-percent":"1.0",
+      "yarn.scheduler.capacity.resource-calculator":"org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator",
+      "yarn.scheduler.capacity.root.queues":"default, large-batch, urgent-batch",
+      "yarn.scheduler.capacity.node-locality-delay":"40",
+      "yarn.scheduler.capacity.queue-mappings":"u:%user:default",
+      "yarn.scheduler.capacity.queue-mappings-override.enable":"false",
+      "yarn.scheduler.capacity.root.default.capacity":"50",
+      "yarn.scheduler.capacity.root.default.user-limit-factor":"2",
+      "yarn.scheduler.capacity.root.default.maximum-capacity":"100",
+      "yarn.scheduler.capacity.root.default.state":"RUNNING",
+      "yarn.scheduler.capacity.root.default.acl_submit_applications":"*",
+      "yarn.scheduler.capacity.root.default.acl_administer_queue":"*",
+      "yarn.scheduler.capacity.root.large-batch.capacity":"40",
+      "yarn.scheduler.capacity.root.large-batch.user-limit-factor":"2",
+      "yarn.scheduler.capacity.root.large-batch.maximum-capacity":"80",
+      "yarn.scheduler.capacity.root.large-batch.state":"RUNNING",
+      "yarn.scheduler.capacity.root.large-batch.acl_submit_applications":"*",
+      "yarn.scheduler.capacity.root.large-batch.acl_administer_queue":"*",
+      "yarn.scheduler.capacity.root.urgent-batch.capacity":"10",
+      "yarn.scheduler.capacity.root.urgent-batch.user-limit-factor":"5",
+      "yarn.scheduler.capacity.root.urgent-batch.maximum-capacity":"50",
+      "yarn.scheduler.capacity.root.urgent-batch.state":"RUNNING",
+      "yarn.scheduler.capacity.root.urgent-batch.acl_submit_applications":"*",
+      "yarn.scheduler.capacity.root.urgent-batch.acl_administer_queue":"*"
+    },
+    "Configurations":[]
+  },
+  {
+    "Classification":"hdfs-site",
+    "Properties":{
+      "dfs.permissions.superusergroup":"supergroup",
+      "dfs.permissions":"false",
+      "dfs.datanode.handler.count":"20",
+      "dfs.namenode.handler.count":"20",
+      "dfs.datanode.max.transfer.threads":"8192",
+      "dfs.client.socket-timeout":"3600000",
+      "dfs.datanode.socket.write.timeout":"3600000"
+    },
+    "Configurations":[]
+  },
+  {
+    "Classification":"spark-defaults",
+    "Properties":{
+      "spark.authenticate":"false",
+      "spark.dynamicAllocation.enabled":"false",
+      "spark.serializer":"org.apache.spark.serializer.KryoSerializer",
+      "spark.yarn.submit.waitAppCompletion":"false",
+      "spark.master":"yarn-master",
+      "spark.history.fs.cleaner.enabled": "true",
+      "spark.history.fs.cleaner.interval": "1d",
+      "spark.history.fs.cleaner.maxAge": "7d",
+      "spark.yarn.am.waitTime": "1800s",
+      "spark.eventLog.enabled": "true",
+      "spark.eventLog.dir": "s3a://worksap-emr-bucket-eva-528926417912-ap-northeast-1/HUE_MT_Tokyo_1/sparkHistoryLog",
+      "spark.history.fs.logDirectory": "s3a://worksap-emr-bucket-eva-528926417912-ap-northeast-1/HUE_MT_Tokyo_1/sparkHistoryLog"
+    },
+    "Configurations":[]
+  },
+  {
+    "Classification": "hadoop-env",
+    "Configurations": [{
+      "Classification": "export",
+      "Configurations": [],
+      "Properties": {
+        "HADOOP_CONF_DIR": "/etc/hadoop/conf",
+        "JAVA_HOME": "/usr/lib/jvm/default-java"
+      }
+    }],
+    "Properties": {}
+  },
+  {
+    "Classification": "spark-env",
+    "Configurations": [{
+      "Classification": "export",
+      "Configurations": [],
+      "Properties": {
+        "SPARK_CLASSPATH": "/usr/lib/hadoop/*:/usr/share/aws/emr/emrfs/lib/*:/usr/share/aws/aws-java-sdk/*",
+        "SPARK_DIST_CLASSPATH": "/usr/lib/hadoop/*:/usr/share/aws/emr/emrfs/lib/*:/usr/share/aws/aws-java-sdk/*",
+        "JAVA_HOME": "/usr/lib/jvm/default-java"
+      }
+    }],
+    "Properties": {}
+  }
+]

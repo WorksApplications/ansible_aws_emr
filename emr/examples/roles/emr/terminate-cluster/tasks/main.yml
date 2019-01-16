@@ -1,0 +1,46 @@
+# You could terminate cluster by cluster id or cluster name
+# You could all terminate all active cluster with the given name by terminate-all
+- name: Test to terminate EMR by cluster name
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: terminate
+    name: "{{ CLSUTER_NAME }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"
+
+- name: Test to terminate EMR by cluster id
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: terminate
+    id: "{{ CLUSTER_ID }}"
+  register: result
+
+- name: Test if cluster Id is invalid
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: terminate
+    id: "{{ CLUSTER_ID_ERROR }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"
+
+- name: Test if cluster name is invalid
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: terminate
+    name: "{{ CLSUTER_NAME_ERROR }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"

@@ -1,0 +1,9 @@
+- name: Test Module to get cluster id
+  connection: local
+  hosts: localhost
+  vars_files:
+    - ./vars/main.yml
+  roles:
+    - emr/get-ips/get-master-ip
+#    - emr/get-ips/get-core-ip
+#    - emr/get-ips/get-task-ip

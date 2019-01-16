@@ -1,0 +1,29 @@
+# You might also get IP by cluster name
+- name: Test to get master IP
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: get-master-ip
+    id: "{{ CLUSTER_ID }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"
+
+- debug:
+    msg: "{{ result.master_private_ip }}"
+  when: result.master_private_ip is defined
+
+- name: Test to get master IP when cluster Id is invalid
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: get-master-ip
+    id: "{{ CLUSTER_ID_ERROR }}"
+    enable_fleet: true
+  register: result
+
+- debug:
+    msg: "{{ result }}"

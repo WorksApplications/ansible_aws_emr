@@ -1,0 +1,28 @@
+# You might also get IP by cluster name
+- name: Test to get task IP
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: get-task-ips
+    id: "{{ CLUSTER_ID }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"
+
+- debug:
+    msg: "{{ result.task_private_ips }}"
+  when: result.task_private_ips is defined
+
+- name: Test to get task IP when cluster Id is invalid
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: get-task-ips
+    id: "{{ CLUSTER_ID_ERROR }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"

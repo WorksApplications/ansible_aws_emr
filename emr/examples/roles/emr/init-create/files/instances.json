@@ -1,0 +1,130 @@
+[
+  {
+    "Name": "EMR_MASTER",
+    "Market": "ON_DEMAND",
+    "InstanceRole": "MASTER",
+    "InstanceType": "m1.medium",
+    "InstanceCount": 1
+  },
+  {
+    "Name": "EMR_CORE",
+    "Market": "ON_DEMAND",
+    "InstanceRole": "CORE",
+    "InstanceType": "m1.medium",
+    "InstanceCount": 1
+  },
+  {
+    "Name":"EMR_TASK",
+    "Market": "SPOT",
+    "InstanceRole":"TASK",
+    "BidPrice": "0.129",
+    "InstanceType":"m4.large",
+    "InstanceCount": 1,
+    "EbsConfiguration":{
+      "EbsBlockDeviceConfigs":[
+        {
+          "VolumeSpecification":{
+            "SizeInGB":32,
+            "VolumeType":"gp2"
+          },
+          "VolumesPerInstance":1
+        }
+      ]
+    },
+    "AutoScalingPolicy":{
+      "Constraints": {
+        "MinCapacity":1,
+        "MaxCapacity":15
+      },
+      "Rules": [
+        {
+          "Name": "AutoScalingStrategy_1",
+          "Description": "Scale out 1 node when the number of pending containers are greater than or equal 5",
+          "Action": {
+            "SimpleScalingPolicyConfiguration": {
+              "AdjustmentType": "CHANGE_IN_CAPACITY",
+              "ScalingAdjustment": 1,
+              "CoolDown": 300
+            }
+          },
+          "Trigger": {
+            "CloudWatchAlarmDefinition": {
+              "ComparisonOperator": "GREATER_THAN_OR_EQUAL",
+              "EvaluationPeriods": 1,
+              "MetricName":"ContainerPending",
+              "Namespace": "AWS/ElasticMapReduce",
+              "Period": 300,
+              "Statistic": "AVERAGE",
+              "Threshold": 5,
+              "Unit":"COUNT",
+              "Dimensions":[
+                {
+                  "Key":"JobFlowId",
+                  "Value":"${emr.clusterId}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "Name": "AutoScalingStrategy_2",
+          "Description": "Scale out 3 nodes when the number of pending containers are greater than or equal 10",
+          "Action": {
+            "SimpleScalingPolicyConfiguration": {
+              "AdjustmentType": "CHANGE_IN_CAPACITY",
+              "ScalingAdjustment": 3,
+              "CoolDown": 300
+            }
+          },
+          "Trigger": {
+            "CloudWatchAlarmDefinition": {
+              "ComparisonOperator": "GREATER_THAN_OR_EQUAL",
+              "EvaluationPeriods": 1,
+              "MetricName":"ContainerPending",
+              "Namespace": "AWS/ElasticMapReduce",
+              "Period": 300,
+              "Statistic": "AVERAGE",
+              "Threshold": 10,
+              "Unit":"COUNT",
+              "Dimensions":[
+                {
+                  "Key":"JobFlowId",
+                  "Value":"${emr.clusterId}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "Name": "AutoScalingStrategy_3",
+          "Description": "Scale in 1 node when the number of pending containers are less than or equal 3",
+          "Action": {
+            "SimpleScalingPolicyConfiguration": {
+              "AdjustmentType": "CHANGE_IN_CAPACITY",
+              "ScalingAdjustment": -1,
+              "CoolDown": 300
+            }
+          },
+          "Trigger": {
+            "CloudWatchAlarmDefinition": {
+              "ComparisonOperator": "LESS_THAN_OR_EQUAL",
+              "EvaluationPeriods": 1,
+              "MetricName":"ContainerPending",
+              "Namespace": "AWS/ElasticMapReduce",
+              "Period": 300,
+              "Statistic": "AVERAGE",
+              "Threshold": 0,
+              "Unit":"COUNT",
+              "Dimensions":[
+                {
+                  "Key":"JobFlowId",
+                  "Value":"${emr.clusterId}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+]

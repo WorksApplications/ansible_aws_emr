@@ -1,0 +1,24 @@
+- name: create emr cluster
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: create
+    name: EMR_test_fox
+    auto_scaling_role: EMR_AutoScaling_DefaultRole
+    applications: ['Hadoop', 'Spark']
+    log_url: 's3n://worksap-emr-bucket-eva-528926417912-ap-northeast-1/HUE_MT_Tokyo_1/logs/'
+    tags: [{'Name': 'EMR_test_fox'}]
+    ec2_key_file_name: ansible-test-hue-general
+    emr_master_security_group: 'sg-09a70dce056529d0d'
+    emr_slave_security_group: 'sg-039505e66a333ccf6'
+    emr_service_security_group: 'sg-07528258c2529554a'
+    instances: "{{ playbook_dir }}/roles/emr/init-create-fleet/files/instances.json"
+    bootstrap_actions: "{{ playbook_dir }}/roles/emr/init-create-fleet/files/bootstrapactions.json"
+    configurations: "{{ playbook_dir }}/roles/emr/init-create-fleet/files/emr_config.json"
+    ec2_subnets: ['subnet-0c2c20ae2674dc2d2', 'subnet-0b7e57eea4806a29d']
+    enable_fleet: true
+  register: result
+
+- debug:
+    msg: "{{ result }}"

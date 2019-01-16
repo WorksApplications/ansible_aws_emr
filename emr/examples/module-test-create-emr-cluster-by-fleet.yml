@@ -1,0 +1,7 @@
+- name: Test Module to create a new emr cluster
+  connection: local
+  hosts: localhost
+  vars_files:
+    - ./vars/main.yml
+  roles:
+    - emr/init-create-fleet

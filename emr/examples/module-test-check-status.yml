@@ -1,0 +1,7 @@
+- name: Test Module to check cluster status
+  connection: local
+  hosts: localhost
+  vars_files:
+    - ./vars/main.yml
+  roles:
+    - emr/check-status

@@ -1,0 +1,13 @@
+- name: Test Scale out a new instance group
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: scale-out
+    id: "{{ CLUSTER_ID }}"
+    scale_out_instance_count: 1
+  register: result
+
+- debug:
+    msg: "{{ result }}"
+

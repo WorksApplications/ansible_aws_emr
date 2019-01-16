@@ -1,0 +1,28 @@
+- name: Test to get instance group id
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: get-collection-id-by-name
+    id: "{{ CLUSTER_ID }}"
+    instance_collection_name: "{{ INSTANCE_GROUP_NAME }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"
+
+- debug:
+    msg: "{{ result.instance_collection_id }}"
+
+- name: Test to get instance group id
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: get-collection-id-by-name
+    id: "{{ CLUSTER_ID }}"
+    instance_collection_name: Not_exists
+  register: result
+
+- debug:
+    msg: "{{ result }}"

@@ -1,0 +1,37 @@
+- name: Test describe cluster by cluster Id
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: describe
+    id: "{{ CLUSTER_ID }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"
+
+- debug:
+    msg: "cluster Name is {{ result.cluster.Name }}"
+
+- debug:
+    msg: "cluster status is {{ result.cluster.Status.State }}"
+
+- name: Check if cluster id is invalid
+  aws_emr:
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECURITY_KEY }}"
+    region: "{{ AWS_REGION }}"
+    mode: describe
+    id: "{{ CLUSTER_ID_ERROR }}"
+  register: result
+
+- debug:
+    msg: "{{ result }}"
+
+- debug:
+    msg: "No cluster was found"
+  when: result.cluster is undefined
+
+- debug:
+    msg: "Cluster was found, {{ result.cluster }}"
+  when: result.cluster is defined
