@@ -459,7 +459,7 @@ def is_instance_fleet_enalbed(cluster):
         return True
     return False
 
-def get_client(region, access_key, secret_key):
+def get_client(region, access_key, secret_key, security_token):
     if access_key == None or access_key == '':
         return boto3.client(
             'emr',
@@ -470,7 +470,8 @@ def get_client(region, access_key, secret_key):
             'emr',
             region_name=region,
             aws_access_key_id=access_key,
-            aws_secret_access_key=secret_key
+            aws_secret_access_key=secret_key,
+            aws_session_token=security_token
         )
 
 def list_active_clusters_by_name(emr_client, cluster_name):
@@ -746,8 +747,9 @@ def run_module():
     # define the available arguments/parameters that a user can pass to
     # the module
     module_args = dict(
-        aws_access_key = dict(type='str', required=True),
-        aws_secret_key = dict(type='str', required=True),
+        aws_access_key = dict(type='str', required=True, no_log=True),
+        aws_secret_key = dict(type='str', required=True, no_log=True),
+        security_token = dict(type='str', required=False, no_log=True),
         region = dict(choices=['us-east-1', 'us-west-2', 'us-west-1', 'eu-west-1', 'eu-central-1', 'ap-southeast-1', 'ap-northeast-1', 'ap-southeast-2', 'ap-northeast-2', 'ap-south-1', 'sa-east-1'], required=True),
         mode = dict(choices=['create', 'describe', 'get-cluster-id', 'get-cluster-ids', 'terminate', 'terminate-all', 'check-status', 'get-master-ip', 'get-core-ips', 'get-slave-ips', 'get-collection-id-by-name', 'add-instance-group', 'scale-out', 'scale-in', 'active-instances-by-collection'], required=True),
         name = dict(type='str'),
@@ -797,6 +799,7 @@ def run_module():
     #Prepare params
     aws_access_key = module.params.get('aws_access_key')
     aws_secret_key = module.params.get('aws_secret_key')
+    security_token = module.params.get('security_token')
     region = module.params.get('region')
     mode = module.params.get('mode')
     name = module.params.get('name')
@@ -827,7 +830,7 @@ def run_module():
     scale_in_instance_count = module.params.get('scale_in_instance_count')
     enable_fleet = module.params.get('enable_fleet')
 
-    emr_client = get_client(region, aws_access_key, aws_secret_key)
+    emr_client = get_client(region, aws_access_key, aws_secret_key, security_token)
 
     if mode == 'create':
         #Validation Check
